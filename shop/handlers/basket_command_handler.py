@@ -1,17 +1,20 @@
 import logging
 from models.basket import Basket, clear_screen
-from shop.helpers.consts import EXIT_COMMANDS
-from conf import *
 from shop.handlers.add_command_handler import handel_add_command
 from getpass import getpass
 
-logger= logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
-def handle_basket_command(store_list: list, store: dict, basket: list, username):
+
+def handle_basket_command(
+        store_list: list,
+        store: dict,
+        basket: list, username: str
+        ) -> None:
     logger.info(f'{username} wants to check basket.')
-    if basket== list():
-        logger.warning(f'{username} wants to show his/her basket from his/her empty list')
-        status= input('WARNING: Your basket is empty. You want to add a gadget?[Y/N]>> ').lower()
+    if basket == list():
+        logger.warning(f'{username} wants to show basket from empty list')
+        status = input('Basket is empty. add a gadget?[Y/N]>> ').lower()
         clear_screen()
         if status == 'y':
             logger.info(f'{username} wants to an item to basket')
@@ -31,4 +34,3 @@ def handle_basket_command(store_list: list, store: dict, basket: list, username)
         b = Basket(username)
         b.show_basket(basket)
         getpass('Please press enter to continue>> ')
-    

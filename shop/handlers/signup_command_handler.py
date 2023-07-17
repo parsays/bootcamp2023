@@ -1,9 +1,10 @@
 import logging
 import os
 from getpass import getpass
-from models.user import  User, ValidationError
+from models.user import User, ValidationError
 
-logger= logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
+
 
 def clear_screen():
     # Clear the screen for Windows-based systems
@@ -14,14 +15,13 @@ def clear_screen():
         os.system('clear')
 
 
-
-def handle_signup_command(username, password: str, users: dict):
+def handle_signup_command(username: str, password: str, users: dict) -> None:
     logger.info(f'{username} wants to signup')
-    fullname= input('Input your fullname: ')
-    email= input('Input your Email: ')
+    fullname = input('Input your fullname: ')
+    email = input('Input your Email: ')
     try:
         try:
-            user= User(username, password)
+            user = User(username, password)
             logger.info(f'{username} validated successfully')
         except ValidationError as msg:
             print(msg)
