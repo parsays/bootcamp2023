@@ -55,9 +55,9 @@ class Basket:
 
     def remove_products(self, basket: list, gadget: str) -> bool:
         for item in basket:
-            item[0] == gadget
-            basket.remove((item))
-            return True
+            if gadget in item:
+                basket.remove((item))
+                return True
         else:
             return False
 

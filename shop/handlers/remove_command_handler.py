@@ -39,9 +39,13 @@ def handel_remove_command(
     removeable = b.remove_products(basket, item)
 
     if removeable:
-        print(f'Dear {username} {item} removed successfully')
+        clear_screen()
         logger.info(f'{username} removed {item} successfully')
+        print(f'Dear {username} {item} removed successfully')
+        getpass('Press enter to continue>> ')
+        clear_screen()
     else:
+        clear_screen()
         logger.warning(f'{username} input unrelated gadget')
         print(f'Dear {username} {item} is not in your basket.')
         getpass('Press enter to continue>> ')

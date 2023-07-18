@@ -1,6 +1,8 @@
 import logging
 from core.entry import clear_screen
 from models.command import COMMANDS
+from getpass import getpass
+from shop.helpers.consts import EXIT_COMMANDS
 
 logger = logging.getLogger(__name__)
 
@@ -166,16 +168,21 @@ def jobs(username):
         print("6. You are able to see available gadgets by pressing GADGETS")
         print("7. You are able to pay your bsket by pressing PAYMENT")
         print('********features on this online shop********')
-        try:
-            command = input('Please enter your command>> ')
-            clear_screen()
-            command = command.lower()
-            if command in COMMANDS:
-                execute_action = COMMANDS[command]
-                execute_action(store_list, store, basket, username)
+        command = input('Please enter your command>> ')
+        clear_screen()
+        command = command.lower()
+        if command in COMMANDS:
+            execute_action = COMMANDS[command]
+            execute_action(store_list, store, basket, username)
 
-            if command == 'payment':
-                break
-        except Exception as msg:
-            print(f'An error accured: {msg}')
+        if command == 'payment':
+            logger.info('user wants to see payment')
+            if basket == list():
+                logger.warning('while basket is empty, user wanna see payment')
+                getpass('Dear user!! You should add item first.')
+                continue
+            break
+        if command in EXIT_COMMANDS:
+            logger.info('user wants to exit program')
+            break
     return basket
