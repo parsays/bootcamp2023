@@ -1,6 +1,5 @@
 import logging
 from models.basket import Basket, clear_screen
-from shop.handlers.add_command_handler import handel_add_command
 from getpass import getpass
 
 logger = logging.getLogger(__name__)
@@ -18,7 +17,8 @@ def handle_basket_command(
         clear_screen()
         if status == 'y':
             logger.info(f'{username} wants to an item to basket')
-            handel_add_command(store_list, store, basket, username)
+            b = Basket(username)
+            basket = b.show_basket(basket)
         elif status == 'n':
             logger.info(f'{username} exit show_basket section')
             clear_screen()

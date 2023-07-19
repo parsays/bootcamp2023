@@ -71,8 +71,12 @@ class Basket:
 
     def show_basket(self, basket: list) -> list:
         print("********YOUR BASKET********")
-        for model, quantity in basket:
-            print(f'Model: {model} and Quantity: {quantity}')
+        for i, item in enumerate(basket):
+            if len(item) != 2:
+                print(f"{i}: {item}")
+            else:
+                model, quantity = item
+                print(f'Model: {model} and Quantity: {quantity}')
         print("********YOUR BASKET********")
 
     def compare_products(
