@@ -7,10 +7,13 @@ class ValidationError(ValueError):
 
 
 class User:
-    def __init__(self, name, email, password, gift_code=None):
+    def __init__(self, name, email, password, gift_code):
         self.name = name
         self.email = email
         self.password = password
+        self.gift_code = gift_code
+
+    def updade_gift_code(self, gift_code):
         self.gift_code = gift_code
 
     @property
@@ -73,13 +76,25 @@ class UserDatabase:
     def update_user_gift_code(self, email, gift_code):
         for user in self.users:
             if user['email'] == email:
-                self.gift_code = gift_code
+                user_obj = User(
+                    user['name'],
+                    user['email'],
+                    user['password'],
+                    user['gift_code']
+                )
+                user_obj.updade_gift_code(gift_code)
                 user['gift_code'] = gift_code
-            else:
-                raise ValueError
+                break
+        else:
+            raise ValueError(f'User with email {email} not found')
 
     def get_user(self, email):
         for user in self.users:
             if user['email'] == email:
-                return User(user['name'], user['email'], user['password'])
+                return User(
+                    user['name'],
+                    user['email'],
+                    user['password'],
+                    user['gift_code']
+                    )
         return None

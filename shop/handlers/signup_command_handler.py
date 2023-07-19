@@ -12,7 +12,7 @@ def handel_signup_command():
             name = input('Name: ')
             email = input('Email: ')
             password = input('Password: ')
-            user = User(name, email, password)
+            user = User(name, email, password, gift_code=None)
             logger.info(f'{user.name} validated successfully.')
         except ValidationError as msg:
             logger.warning(f'User validated unsuccessfully - {msg}.')
