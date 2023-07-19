@@ -5,4 +5,4 @@ from conf import *
 name = entry()
 basket = jobs(name.name)
 if not basket == list():
-    total = payment(basket, name.email, name.name)
+    total = payment(basket, name.email, name.name, name)

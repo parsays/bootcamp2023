@@ -1,12 +1,14 @@
 import smtplib
 from email.mime.text import MIMEText
 from models.payment import Payment
+from models.user import UserDatabase
 import logging
+import random
 
 logger = logging.getLogger(__name__)
 
 
-def payment(basket: list, email: str, name: str):
+def payment(basket: list, email: str, name: str, user):
     store = {
         'smart_phone': {
             'apple': {
@@ -79,6 +81,11 @@ def payment(basket: list, email: str, name: str):
         each_item_payment = calculate_item(price, quantity)
         payment = Payment(each_item_payment).bind(calculate_total_payment)
 
+    gift_code = random.randint(1000, 10000)
+
+    with UserDatabase('users.json') as db:
+        db.update_user_gift_code(email, gift_code)
+
     print(f'Dear {name}!! Your resipt fee is {payment} Euro.')
     print('we will send you an email for payment.')
     logger.info(f'{name} saw payment successfully.')
@@ -103,8 +110,9 @@ def payment(basket: list, email: str, name: str):
             smtp.send_message(msg)
 
         print('Email sent successfully')
+
         logger.info('Email sent successfully')
     to_email = email
     subject = 'Your payment fee!'
-    message = f'Dear customer {name}, your order has been shipped and will arrive in 3-5 business days. Thank you for shopping with us! you should pay {payment} Euro to postman.'
+    message = f'Dear customer {name}, your order has been shipped and will arrive in 3-5 business days. Thank you for shopping with us! you should pay {payment} Euro to postman.\n Your GIFT CARD NUMBER for next buy is {gift_code}.'
     send_email(to_email, subject, message)

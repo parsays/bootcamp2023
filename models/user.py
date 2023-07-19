@@ -7,10 +7,11 @@ class ValidationError(ValueError):
 
 
 class User:
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, gift_code=None):
         self.name = name
         self.email = email
         self.password = password
+        self.gift_code = gift_code
 
     @property
     def name(self) -> str:
@@ -65,8 +66,17 @@ class UserDatabase:
         self.users.append({
             'name': user.name,
             'email': user.email,
-            'password': user.password
+            'password': user.password,
+            'gift_code': user.gift_code,
             })
+
+    def update_user_gift_code(self, email, gift_code):
+        for user in self.users:
+            if user['email'] == email:
+                self.gift_code = gift_code
+                user['gift_code'] = gift_code
+            else:
+                raise ValueError
 
     def get_user(self, email):
         for user in self.users:
