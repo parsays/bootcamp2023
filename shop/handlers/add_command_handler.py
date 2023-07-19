@@ -26,13 +26,17 @@ def handel_add_command(
             clear_screen()
             try:
                 store['smart_phone'][brand][model]
-                number = int(input('How many>> '))
-                b = Basket(username)
-                basket = b.add_products(basket, brand, model, number)
-                logger.info(f'{username} add {brand} - {model} to the basket')
-                print(f'Dear {username} your gadget {brand} - {model} '
-                      f'added successfully.')
-                input('Please press enter to continue>> ')
+                try:
+                    number = int(input('How many>> '))
+                    b = Basket(username)
+                    basket = b.add_products(basket, brand, model, number)
+                    logger.info(f'{username} add {brand} - {model}.')
+                    print(f'Dear {username} your gadget {brand} - {model} '
+                          f'added successfully.')
+                    input('Please press enter to continue>> ')
+                except ValueError:
+                    print(f'Dear {username}!! You have to input int.')
+                    input('Please press enter to continue>> ')
                 clear_screen()
             except KeyError:
                 logger.warning(f'{username} wants to add {brand} - {model} '
